@@ -4,7 +4,7 @@ import { isObject } from "./utils";
 import { ClickhouseClientInsertPromise } from "./constants";
 
 export default class DataInstance {
-  [key: string]: any;
+  [key: string]: string | number | boolean | Date | any[] | Function | any;
 
   model;
   constructor(model, initData?) {

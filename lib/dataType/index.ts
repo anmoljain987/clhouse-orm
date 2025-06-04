@@ -4,7 +4,9 @@ export type DATA_TYPE_DEFINE = {
   validation?: string | FunctionValidation;
   columnType: string;
 };
-export type DATA_TYPE_FUNCTION_DEFINE = (dateTypeDefine: any) => DATA_TYPE_DEFINE;
+export type DATA_TYPE_FUNCTION_DEFINE = (
+  param: number | DATA_TYPE_DEFINE | string
+) => DATA_TYPE_DEFINE;
 
 export interface I_DATA_TYPES {
   UInt8: DATA_TYPE_DEFINE;
