@@ -1,10 +1,5 @@
 import * as dayjs from "dayjs";
-import {
-  ClickhouseOrm,
-  DATA_TYPE,
-  ModelSyncTableConfig,
-  ClickhouseOrmModel,
-} from "../lib/index";
+import { ClickhouseOrm, DATA_TYPE, ModelSyncTableConfig, ClickhouseOrmModel } from "../lib/index";
 import { clientConfig } from "../mock";
 
 /**
@@ -41,6 +36,10 @@ const chOrm = ClickhouseOrm({
   db,
   debug: true,
 });
+
+if (!chOrm) {
+  throw new Error("Failed to initialize ClickhouseOrm");
+}
 
 const doDemo = async () => {
   // create database 'orm_test'
@@ -111,8 +110,8 @@ const doDemo = async () => {
 };
 
 const queryExample1 = ({ Model, status, beginTime, endTime }) => {
-  let wheres = [],
-    where;
+  let wheres: string[] = [],
+    where: any = "";
   if (status) wheres.push(`status='${status}'`);
   if (beginTime) wheres.push(`time>='${beginTime}'`);
   if (endTime) wheres.push(`time<='${endTime}'`);

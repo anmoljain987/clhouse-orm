@@ -9,9 +9,7 @@ export { default as ClickhouseOrmModel } from "./model";
 
 export const ClickhouseOrm = ({ client, db, debug = false }: OrmConfig) => {
   if (!db) {
-    ErrorLog(
-      "db is undefined. It should be object that include required name and optional engine"
-    );
+    ErrorLog("db is undefined. It should be object that include required name and optional engine");
     return;
   }
 

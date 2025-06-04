@@ -1,7 +1,7 @@
 export type FunctionValidation = (...value: any) => boolean;
 interface DataTypeValidation {
   [key: string]: string | FunctionValidation;
-  ['FixedString']: FunctionValidation;
+  ["FixedString"]: FunctionValidation;
 }
 // Validate Data Type when INSERT INTO
 export const dataTypeValidation: DataTypeValidation = {
@@ -22,8 +22,8 @@ export const dataTypeValidation: DataTypeValidation = {
   Date32: "date|string|number",
   DateTime: "date|string|number",
   DateTime64: "date|string|number",
-  Enum8: 'string',
-  Enum16: 'string',
+  Enum8: "string",
+  Enum16: "string",
   FixedString(value, N) {
     if (value.length > N) return false;
     return true;

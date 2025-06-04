@@ -10,16 +10,10 @@ export interface ClickhouseClientInsertPromise {
       | ((value: ClickhouseClientInsertSuccess) => TResult1 | PromiseLike<TResult1>)
       | undefined
       | null,
-    onrejected?:
-      | ((reason: Error) => TResult2 | PromiseLike<TResult2>)
-      | undefined
-      | null
+    onrejected?: ((reason: Error) => TResult2 | PromiseLike<TResult2>) | undefined | null
   ): Promise<TResult1 | TResult2>;
   catch<TResult = Error>(
-    onrejected?:
-      | ((reason: TResult) => TResult | PromiseLike<TResult>)
-      | undefined
-      | null
+    onrejected?: ((reason: TResult) => TResult | PromiseLike<TResult>) | undefined | null
   ): Promise<ClickhouseClientInsertSuccess | TResult>;
 }
 

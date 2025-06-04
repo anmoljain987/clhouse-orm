@@ -89,8 +89,7 @@ export default class Schema {
           }
           // validation function
           else if (typeof obj[column].type.validation === "function") {
-            const validation = obj[column].type
-              .validation as FunctionValidation;
+            const validation = obj[column].type.validation as FunctionValidation;
             if (!validation(newVal)) {
               errorThrow({
                 column,

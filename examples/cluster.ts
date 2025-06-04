@@ -31,18 +31,14 @@ const chOrm = ClickhouseOrm({
   client: clientConfig, // It must be a clickhouse cluster
   db,
   debug: true,
-});
+}) as any;
 
 const doDemo = async () => {
   try {
     // create database 'orm_cluster_test'
     await chOrm.createDatabase();
   } catch (err) {
-    console.log(
-      `${colors.blue(
-        "------- Tips: It must be a clickhouse cluster ------"
-      )} \n`
-    );
+    console.log(`${colors.blue("------- Tips: It must be a clickhouse cluster ------")} \n`);
     console.log(err);
     return;
   }
@@ -64,7 +60,7 @@ const doDemo = async () => {
 
   // new data model
   const data = Table1Model.build({ status: 2 });
-  
+
   // set value
   data.time = new Date();
   data.browser = "chrome";

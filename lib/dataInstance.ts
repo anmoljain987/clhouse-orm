@@ -38,8 +38,7 @@ export default class DataInstance {
     const schemaInstance = this.model.schemaInstance;
     const data = getPureData(schemaInstance, this);
     const insertHeaders = insertSQL(this.model.dbTableName, schemaInstance);
-    if (this.model.debug)
-      DebugLog(`execute save> ${insertHeaders} ${JSON.stringify([data])}`);
+    if (this.model.debug) DebugLog(`execute save> ${insertHeaders} ${JSON.stringify([data])}`);
     return this.model.client
       .insert(insertHeaders, [data])
       .toPromise() as ClickhouseClientInsertPromise;

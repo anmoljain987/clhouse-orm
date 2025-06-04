@@ -7,10 +7,7 @@ const DbAutoSetValueDataTypeFilter = [];
 /**
  * Get a pure data instead of a model instance
  */
-export const getPureData = (
-  schemaInstance: Schema,
-  dataInstance: DataInstance
-) => {
+export const getPureData = (schemaInstance: Schema, dataInstance: DataInstance) => {
   const data = {};
   schemaInstance.columns.forEach((key) => {
     if (DbAutoSetValueDataTypeFilter.includes(schemaInstance.schemaConfig[key].type)) return;

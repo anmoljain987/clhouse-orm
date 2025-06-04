@@ -32,6 +32,10 @@ const chOrm = ClickhouseOrm({
   debug: true,
 });
 
+if (!chOrm) {
+  throw new Error("Failed to initialize ClickhouseOrm");
+}
+
 const doDemo = async () => {
   // create database 'orm_test'
   await chOrm.createDatabase();

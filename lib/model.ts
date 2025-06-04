@@ -11,10 +11,7 @@ import Schema, { SchemaConfig } from "./schema";
 import { DebugLog } from "./log";
 import { DbConfig } from "./orm";
 import DataInstance from "./dataInstance";
-import {
-  ClickhouseClientInsertPromise,
-  ClickhouseClientToPromise,
-} from "./constants";
+import { ClickhouseClientInsertPromise, ClickhouseClientToPromise } from "./constants";
 
 export interface ModelOptions {
   client: ClickHouse;
@@ -74,9 +71,7 @@ export default class Model<T = any> {
     return this.client.query(sql).toPromise();
   }
 
-  insertMany(
-    dataArray: Array<T> | Array<DataInstance & T>
-  ): ClickhouseClientInsertPromise {
+  insertMany(dataArray: Array<T> | Array<DataInstance & T>): ClickhouseClientInsertPromise {
     const datas = [...dataArray].map((item: T | (DataInstance & T)) => {
       let data;
       if (item instanceof DataInstance) {
@@ -91,9 +86,7 @@ export default class Model<T = any> {
     if (datas && datas.length > 0) {
       const insertHeaders = insertSQL(this.dbTableName, this.schemaInstance);
       if (this.debug)
-        DebugLog(
-          `[>>EXECUTE INSERTMANY<<] ${insertHeaders} ${JSON.stringify(datas)}`
-        );
+        DebugLog(`[>>EXECUTE INSERTMANY<<] ${insertHeaders} ${JSON.stringify(datas)}`);
       return this.client.insert(insertHeaders, datas).toPromise();
     }
   }

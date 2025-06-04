@@ -1,8 +1,4 @@
-import {
-  OrmConfig,
-  ModelSqlCreateTableConfig,
-  ModelSyncTableConfig,
-} from "../lib";
+import { OrmConfig, ModelSqlCreateTableConfig, ModelSyncTableConfig } from "../lib";
 import { DATA_TYPE } from "../lib/dataType";
 
 export const clientConfig = {
@@ -76,9 +72,7 @@ export const modelSyncTableConfig3: ModelSyncTableConfig = {
     int8: { type: DATA_TYPE.Int8 },
     enum8: { type: DATA_TYPE.Enum8(`'enum1'=1,'enum2'= 2,'enum4'=4`) },
     enum16: {
-      type: DATA_TYPE.Enum16(
-        `'enum30000'=30000,'enum30100'= 30100,'enum30200' =30200`
-      ),
+      type: DATA_TYPE.Enum16(`'enum30000'=30000,'enum30100'= 30100,'enum30200' =30200`),
     },
     arr: { type: DATA_TYPE.Other("Array( String )") },
     lowCardinalityInt8: { type: DATA_TYPE.LowCardinality(DATA_TYPE.String) },

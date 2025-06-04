@@ -39,10 +39,7 @@ export interface ModelSqlCreateTableConfig<T = any> {
 }
 
 type TableMeta = { name: string; type: string }[];
-type ModelConfigs<T> =
-  | ModelConfig<T>
-  | ModelSyncTableConfig<T>
-  | ModelSqlCreateTableConfig<T>;
+type ModelConfigs<T> = ModelConfig<T> | ModelSyncTableConfig<T> | ModelSqlCreateTableConfig<T>;
 
 /** {a:unknown,b:string,c:unknown} >>> 'a'|'c' */
 type GetUnknownAttr<T> = {
@@ -92,8 +89,7 @@ export default class ClickhouseOrm {
         .toPromise();
       return info.meta;
     } catch (err) {
-      if (err.code === 60 || err.message.indexOf(`doesn't exist`) !== -1)
-        return false;
+      if (err.code === 60 || err.message.indexOf(`doesn't exist`) !== -1) return false;
     }
   }
 
@@ -108,9 +104,8 @@ export default class ClickhouseOrm {
     Object.keys(codeSchema).map((columnName) => {
       if (tableMetaMap[columnName]) {
         if (
-          dataTypeFilterUnnecessarySpace(
-            codeSchema[columnName].type.columnType
-          ) !== dataTypeFilterUnnecessarySpace(tableMetaMap[columnName])
+          dataTypeFilterUnnecessarySpace(codeSchema[columnName].type.columnType) !==
+          dataTypeFilterUnnecessarySpace(tableMetaMap[columnName])
         ) {
           modifyColumns.push({
             name: columnName,
@@ -136,9 +131,7 @@ export default class ClickhouseOrm {
 
   syncTable({ deleteColumns, addColumns, modifyColumns, dbTableName }) {
     const list = [];
-    const alter = `ALTER TABLE ${dbTableName} ${getClusterStr(
-      this.db.cluster
-    )}`;
+    const alter = `ALTER TABLE ${dbTableName} ${getClusterStr(this.db.cluster)}`;
     deleteColumns.forEach((columnName) => {
       const sql = `${alter} DROP COLUMN ${columnName}`;
       list.push(this.client.query(sql).toPromise());
@@ -159,14 +152,11 @@ export default class ClickhouseOrm {
 
   // auto create sql string
   autoCreateTableSql(dbTableName: string, modelConfig: ModelSyncTableConfig) {
-    if (!modelConfig.options)
-      throw Error("autoCreate or autoSync: `options` is required");
+    if (!modelConfig.options) throw Error("autoCreate or autoSync: `options` is required");
 
     const { schema, options } = modelConfig;
     return `
-      CREATE TABLE IF NOT EXISTS ${dbTableName} ${getClusterStr(
-      this.db.cluster
-    )}
+      CREATE TABLE IF NOT EXISTS ${dbTableName} ${getClusterStr(this.db.cluster)}
       (
         ${Object.keys(schema)
           .map((key) => {
@@ -186,18 +176,13 @@ export default class ClickhouseOrm {
     if (tablemeta) {
       if ((modelConfig as ModelSyncTableConfig).autoSync) {
         const diff = this.diffTableMeta(modelConfig.schema, tablemeta);
-        if (
-          diff.addColumns.length ||
-          diff.deleteColumns.length ||
-          diff.modifyColumns.length
-        ) {
+        if (diff.addColumns.length || diff.deleteColumns.length || diff.modifyColumns.length) {
           try {
             const syncSqlRes = await this.syncTable({
               ...diff,
               dbTableName,
             } as any);
-            if (syncSqlRes.length)
-              Log(`Sync table '${dbTableName}' structure complete!`);
+            if (syncSqlRes.length) Log(`Sync table '${dbTableName}' structure complete!`);
           } catch (e) {
             const info = `Sync table '${dbTableName}' structure failed and Model create failed:\n ${e}`;
             ErrorLog(info);
@@ -210,10 +195,7 @@ export default class ClickhouseOrm {
       const { createTable } = modelConfig as ModelSqlCreateTableConfig;
       const createSql = createTable
         ? createTable(dbTableName, this.db)
-        : this.autoCreateTableSql(
-            dbTableName,
-            modelConfig as ModelSyncTableConfig
-          );
+        : this.autoCreateTableSql(dbTableName, modelConfig as ModelSyncTableConfig);
       Log(`Create table> ${createSql}`);
       try {
         await this.client.query(createSql).toPromise();
